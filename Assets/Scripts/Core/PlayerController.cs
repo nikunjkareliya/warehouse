@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float rotateSpeed = 10;
     [SerializeField] CharacterController controller;
     [SerializeField] PlayerInput playerInput;
-    
+    WaitForSeconds wait;
+
     private void Awake()
-    {        
-        InvokeRepeating("CheckForNearestBoxes", 1, 0.2f);
+    {
+        wait = new WaitForSeconds(0.1f);
+        StartCoroutine(RoutineCheckForNearestBoxes());
     }
 
     float xInput, zInput;    
@@ -71,5 +73,14 @@ public class PlayerController : MonoBehaviour
         }
         return nearestBox;
 
+    }
+
+    IEnumerator RoutineCheckForNearestBoxes()
+    {
+        while (true)
+        {
+            CheckForNearestBoxes();
+            yield return wait;
+        }
     }
 }
